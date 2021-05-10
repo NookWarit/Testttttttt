@@ -15,6 +15,7 @@ class TableDynamicViewController: UIViewController {
     var router: (NSObjectProtocol & TableDynamicRoutingLogic & TableDynamicDataPassing)?
     var data = ["sfjioawdgnfiosngionaerngibnskzdngoivnaesidgnviwaonsidgnviwnievwdsvwdv","dsfjijdsif","sdfjiosjigidsgisdigidsigijdifgijdfiojgidfgjidfgidijgidfjgjeajrgoieigkndfkgkjiojfdkjgnvndfkvineigriodjklvjiofsjdkgniejvidjgjoengi"]
     let tableViewCell = "TableViewCell"
+    let searchBarTableViewCell = "SearchBarTableViewCell"
     
     // MARK: Routing
     
@@ -30,19 +31,20 @@ class TableDynamicViewController: UIViewController {
     // MARK: View lifecycle
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-      super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-      configure()
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        configure()
     }
     
     required init?(coder aDecoder: NSCoder) {
-      super.init(coder: aDecoder)
-      configure()
+        super.init(coder: aDecoder)
+        configure()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         doSomething()
         setup()
+        tableView.reloadData()
     }
     
     // MARK: Do something
@@ -57,6 +59,7 @@ class TableDynamicViewController: UIViewController {
 extension TableDynamicViewController {
     private func setup() {
         tableView.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: tableViewCell)
+        tableView.register(UINib(nibName: "SearchBarTableViewCell", bundle: nil), forCellReuseIdentifier: searchBarTableViewCell)
         
     }
     
@@ -72,21 +75,42 @@ extension TableDynamicViewController : TableDynamicDisplayLogic {
 }
 
 extension TableDynamicViewController: UITableViewDataSource, UITableViewDelegate {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
+        if section == 0 {
+            return 1
+        } else {
+            return data.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCell, for: indexPath) as! TableViewCell
-    
-        cell.configureCell(textLabel: data[indexPath.row])
-        
-        return cell
+        if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: searchBarTableViewCell, for: indexPath) as! SearchBarTableViewCell
+//            cell.configureCell()
+            cell.searchBarView.delegate = self
+            cell.searchBarView.configureUISearchBar(textColor: .black, backColor: .systemGray2)
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCell, for: indexPath) as! TableViewCell
+            
+            cell.configureCell(textLabel: data[indexPath.row])
+            
+            return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 1 {
+            return 100// tableView.layer.bounds.width * 0.1
+        } else {
             return UITableView.automaticDimension
         }
-    
+    }
+}
+
+extension TableDynamicViewController: UISearchBarDelegate {
     
 }
