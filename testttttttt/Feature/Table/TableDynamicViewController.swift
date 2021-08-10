@@ -13,7 +13,7 @@ class TableDynamicViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     var interactor: TableDynamicBusinessLogic?
     var router: (NSObjectProtocol & TableDynamicRoutingLogic & TableDynamicDataPassing)?
-    var data = ["sfjioawdgnfiosngionaerngibnskzdngoivnaesidgnviwaonsidgnviwnievwdsvwdv","dsfjijdsif","sdfjiosjigidsgisdigidsigijdifgijdfiojgidfgjidfgidijgidfjgjeajrgoieigkndfkgkjiojfdkjgnvndfkvineigriodjklvjiofsjdkgniejvidjgjoengi"]
+    var data = ["sfjioawdgnfiosngionaerngibnskzdngoivnaesidgnviwaonsidgnviwnievwdsvwdv","dsfjijdsif","sdfjiosjigidsgisdigidsigijdifgijdfiojgidfgjidfgidijgidfjgjeajrgoieigkndfkgkjiojfdkjgnvndfkvineigriodjklvjiofsjdkgniejvidjgjoengi","ojdofjosdjofjosjdfojsod"]
     let tableViewCell = "TableViewCell"
     let searchBarTableViewCell = "SearchBarTableViewCell"
     
