@@ -60,7 +60,11 @@ extension TableDynamicViewController {
     private func setup() {
         tableView.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: tableViewCell)
         tableView.register(UINib(nibName: "SearchBarTableViewCell", bundle: nil), forCellReuseIdentifier: searchBarTableViewCell)
-        
+        if #available(iOS 15.0, *) {
+            tableView.allowsFocus = true
+        } else {
+            // Fallback on earlier versions
+        }
     }
     
     private func configure() {
@@ -89,7 +93,6 @@ extension TableDynamicViewController: UITableViewDataSource, UITableViewDelegate
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: searchBarTableViewCell, for: indexPath) as! SearchBarTableViewCell
-//            cell.configureCell()
             cell.searchBarView.delegate = self
             cell.searchBarView.configureUISearchBar(textColor: .black, backColor: .systemGray2)
             return cell
@@ -104,10 +107,14 @@ extension TableDynamicViewController: UITableViewDataSource, UITableViewDelegate
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 1 {
-            return 100// tableView.layer.bounds.width * 0.1
+            return 100
         } else {
             return UITableView.automaticDimension
         }
+    }
+    
+    func tableView(_ tableView: UITableView, canFocusRowAt indexPath: IndexPath) -> Bool {
+        return true
     }
 }
 

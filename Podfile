@@ -8,6 +8,8 @@ target 'testttttttt' do
   # Pods for testttttttt
 	pod 'Alamofire'
   pod 'RealmSwift'
+  
+  pod 'ToastExtension', :git => 'https://github.com/NookWarit/ToastExtension'
 
   target 'testtttttttTests' do
     inherit! :search_paths
